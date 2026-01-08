@@ -178,6 +178,7 @@ export default function ProblemWorkspace({ problem, onNext, onPrev }) {
             type="button"
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#deceb7] bg-[#fff8ed] text-sm text-[#5d5245] hover:bg-[#f2e3cc] dark:border-[#40364f] dark:bg-[#221d2b] dark:text-[#d7ccbe] dark:hover:bg-[#2d2535]"
             aria-label="Previous"
+            onClick={onPrev}
           >
             {"<"}
           </button>
@@ -185,6 +186,7 @@ export default function ProblemWorkspace({ problem, onNext, onPrev }) {
             type="button"
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#deceb7] bg-[#fff8ed] text-sm text-[#5d5245] hover:bg-[#f2e3cc] dark:border-[#40364f] dark:bg-[#221d2b] dark:text-[#d7ccbe] dark:hover:bg-[#2d2535]"
             aria-label="Next"
+            onClick={onNext}
           >
             {">"}
           </button>
