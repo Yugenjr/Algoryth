@@ -6,55 +6,36 @@ export async function POST(request) {
 
     if (!code || code.trim().length === 0) {
       return NextResponse.json(
-        { output: null, error: "No code provided" },
+        { error: "No code provided" },
         { status: 400 }
       );
     }
 
-    let output = "";
-    let result = null;
+    let output = null;
     let error = null;
 
-    const originalLog = console.log;
-
     try {
-      console.log = (...args) => {
-        output += args.join(" ") + "\n";
-      };
+      // User must define solve(input)
+      const solve = new Function(
+        `${code}; return solve;`
+      )();
 
-      // Execute user code
-      const fn = new Function(
-        `${code};
-         if (typeof solve === "function") {
-           return solve(${input ?? "undefined"});
-         }`
-      );
+      const parsedInput =
+        input !== undefined ? JSON.parse(input) : undefined;
 
-      result = fn();
+      output = solve(parsedInput);
     } catch (err) {
       error = err.toString();
-    } finally {
-      console.log = originalLog;
     }
 
     return NextResponse.json({
-      output: output.trim() || null,
-      result: result !== undefined ? JSON.stringify(result) : null,
+      output,
       error,
     });
   } catch {
     return NextResponse.json(
-      { output: null, error: "Invalid request" },
+      { error: "Invalid request" },
       { status: 400 }
     );
   }
-}
-  const { language, code } = await request.json();
-  // Mock execution
-  const result = {
-    status: "Accepted",
-    output: `Executed ${language} code successfully. Code length: ${code?.length || 0}`,
-    language
-  };
-  return Response.json(result);
 }
